@@ -8,19 +8,30 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        string archivoCadeteria = "Cadeteria.csv";
-        string archivoCadetes = "Cadetes.csv";
-        
-        HelperDeArchivos help = new HelperDeArchivos();
+        List<Cadete> ListaCadetes = new List<Cadete>();
+        Cadeteria? cadeteria = null;
 
-        List<string[]> LecturaDeCadetes = help.LeerArchivoCsv(archivoCadetes);
-        List<Cadete> ListadoCadetes = help.ConversorDeCadete(LecturaDeCadetes);  
+        Console.WriteLine("Seleccione el tipo de archivo que desea leer: ");
+        Console.WriteLine("1 - CSV");
+        Console.WriteLine("2 - Json");
+        int.TryParse(Console.ReadLine(), out int tipo);
 
-        List<string[]> LecturaDeCadeteria = help.LeerArchivoCsv(archivoCadeteria);
-        Cadeteria cadeteria = help.ConversorDeCadeteria(LecturaDeCadeteria, ListadoCadetes);  
+        if (tipo == 1)
+        {
+            AccesoCSV helpCsv = new AccesoCSV();
+            ListaCadetes = helpCsv.LeerArchivoCadete("Cadetes.csv");
+            cadeteria = helpCsv.LeerArchivoCadeteria("Cadeteria.csv");
+        } else
+        {
+            AccesoJSON helpJson = new AccesoJSON();
+            ListaCadetes = helpJson.LeerArchivoCadete("Cadetes.json");
+            cadeteria = helpJson.LeerArchivoCadeteria("Cadeteria.json");
+        } 
+
+        cadeteria.ListadoCadetes = ListaCadetes; //Cargo el listado obtenido de cadetes a mi cadeteria
 
         string? opcion;
-        List<Pedido> pedidos = new List<Pedido>();
+        
         do
         {
             Console.WriteLine("--------------- Menu ---------------");
@@ -35,23 +46,18 @@ internal class Program
             switch (opcion)
             {
                 case "1":
-                    Pedido nuevoPedido = cadeteria.DarAltaPedido(1, "con papas extras", "Natalia", "Av. Belgrano 800", "3815555555", "Casa esquina");
-                    pedidos.Add(nuevoPedido);
-                    Pedido nuevoPedido1 = cadeteria.DarAltaPedido(2, "sin condimentos", "Martina", "San Juan 967", "3814444444", "Porton con rejas");
-                    pedidos.Add(nuevoPedido1);
-                    Pedido nuevoPedido2 = cadeteria.DarAltaPedido(3, "sin picante", "Carlos", "Buenos Aires 387", "3816666666", "No funciona el timbre");
-                    pedidos.Add(nuevoPedido2);
-                    Pedido nuevoPedido3 = cadeteria.DarAltaPedido(4, "Sin observaciones", "Nicolas", "Av. Belgrano 839", "3817777777", "Piso 8 B");
-                    pedidos.Add(nuevoPedido3);
+                    cadeteria.DarAltaPedido(1, "con papas extras", "Natalia", "Av. Belgrano 800", "3815555555", "Casa esquina");
+                    cadeteria.DarAltaPedido(2, "sin condimentos", "Martina", "San Juan 967", "3814444444", "Porton con rejas");
+                    cadeteria.DarAltaPedido(3, "sin picante", "Carlos", "Buenos Aires 387", "3816666666", "No funciona el timbre");
+                    cadeteria.DarAltaPedido(4, "Sin observaciones", "Nicolas", "Av. Belgrano 839", "3817777777", "Piso 8 B");                    
                     break;
                 case "2":
                     Console.WriteLine("Ingrese numero de pedido: ");
                     int.TryParse(Console.ReadLine(), out int nroPed);
                     Console.WriteLine("Ingrese ID del cadete: ");
                     int.TryParse(Console.ReadLine(), out int nroCad);
-                    Pedido? pedEncontrado = pedidos.FirstOrDefault(ped => ped.Nro == nroPed);
 
-                    cadeteria.AsignarPedidoACadete(pedEncontrado, nroCad); 
+                    cadeteria.AsignarCadeteAPedido(nroPed, nroCad); 
                     break;
                 case "3":
                     Console.WriteLine("Ingrese numero de pedido: ");
@@ -68,7 +74,7 @@ internal class Program
                     int.TryParse(Console.ReadLine(), out int id);
                     Console.WriteLine("Ingrese numero del pedido que quiere reasignar: ");
                     int.TryParse(Console.ReadLine(), out int nro);
-                    Pedido? ped = pedidos.FirstOrDefault(pedido => pedido.Nro == nro);
+                    Pedido? ped = cadeteria.ListadoPedidos.FirstOrDefault(ped => ped.Nro == nro);
 
                     cadeteria.ReasignarPedido(ped, id);
                     break;
