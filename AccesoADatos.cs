@@ -40,7 +40,6 @@ public class AccesoCSV : AccesoADatos
         }
         else
         {
-            Console.WriteLine($"El archivo {nombreDeArchivo} no existe");
             return null;
         }
     }
@@ -64,7 +63,6 @@ public class AccesoCSV : AccesoADatos
         }
         else
         {
-            Console.WriteLine($"El archivo {nombreDeArchivo} no existe");
             return null;
         }
         return miCadeteria;
@@ -83,7 +81,6 @@ public class AccesoJSON: AccesoADatos
             return ListaCadetes;
         } else
         {
-            Console.WriteLine($"El archivo {nombreDeArchivo} no existe");
             return null;
         }
     }
@@ -97,7 +94,6 @@ public class AccesoJSON: AccesoADatos
             return miCadeteria;
         } else
         {
-            Console.WriteLine($"El archivo {nombreDeArchivo} no existe");
             return null;
         }
     }

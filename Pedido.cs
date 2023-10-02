@@ -35,14 +35,13 @@ public class Pedido
     }
 
     //metodos
-    public void VerDireccionCliente()
+    public string VerDireccionCliente()
     {
-        Console.WriteLine($"Direccion del cliente: {Cliente.Direccion}");
+        return Cliente.Direccion;
     }
 
-    public void VerDatosCliente()
+    public string VerDatosCliente()
     {
-        Console.WriteLine($"Nombre del cliente: {Cliente.Nombre}");
-        Console.WriteLine($"Telefono del cliente: {Cliente.Telefono}");
+        return Cliente.Nombre + ", " + Cliente.Telefono;
     }
 }

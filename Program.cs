@@ -74,9 +74,8 @@ internal class Program
                     int.TryParse(Console.ReadLine(), out int id);
                     Console.WriteLine("Ingrese numero del pedido que quiere reasignar: ");
                     int.TryParse(Console.ReadLine(), out int nro);
-                    Pedido? ped = cadeteria.ListadoPedidos.FirstOrDefault(ped => ped.Nro == nro);
 
-                    cadeteria.ReasignarPedido(ped, id);
+                    cadeteria.ReasignarPedido(nro, id);
                     break;
                 case "5":
                     cadeteria.MostrarInforme();

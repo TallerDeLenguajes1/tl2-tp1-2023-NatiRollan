@@ -40,9 +40,6 @@ public class Cadeteria
             if (cadEncontrado != null && pedEncontrado != null)
             {
                 pedEncontrado.Cadete = cadEncontrado;
-            } else
-            {
-                Console.WriteLine("El pedido o cadete que quiere asignar no existe");
             }
         }
     }
@@ -67,23 +64,17 @@ public class Cadeteria
         } 
     }
 
-    public void ReasignarPedido(Pedido pedido, int idC)
+    public void ReasignarPedido(int nroPedido, int idC)
     {
-        //verifico si el pedido ya tiene asignado un cadete
-        foreach (var ped in ListadoPedidos)
-        {
-            if (ped.Cadete != null && ped == pedido)
-            {
-                ped.Cadete = null;
-                break;
-            }
-        }
-
-        // asigno el nuevo cadete al pedido
         Cadete? cadEncontrado = ListadoCadetes.FirstOrDefault(cadete => cadete.Id == idC);
         if (cadEncontrado != null)
         {
-            pedido.Cadete = cadEncontrado;
+            Pedido? pedidoE = ListadoPedidos.FirstOrDefault(ped => ped.Nro == nroPedido);
+            if (pedidoE.Cadete != null)  //verifico si el pedido ya tiene asignado un cadete
+            {
+                pedidoE.Cadete = null;
+            }
+            pedidoE.Cadete = cadEncontrado;  // asigno el nuevo cadete al pedido
         }
     }
 
